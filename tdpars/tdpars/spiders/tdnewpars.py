@@ -7,4 +7,12 @@ class TdnewparsSpider(scrapy.Spider):
     start_urls = ["https://tdom.info/santehnika/polotencesushiteli-i-komplektuyuschie"]
 
     def parse(self, response):
-        pass
+        towels = response.css("span.item-name")
+        for towel in towels:
+            yield {
+                "name" : towel.css("div.caption span.item-name").get(),
+                "price" : towel.css("div.option span.item-name").get(),
+                "url" : towel.css("a").attrib["href"]
+            }
+
+
